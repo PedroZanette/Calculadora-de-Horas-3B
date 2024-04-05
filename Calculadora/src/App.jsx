@@ -1,37 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [hi, setHi] = useState();
-  const [mi, setMi] = useState();
-  const [hf, setHf] = useState();
-  const [mf, setMf] = useState();
+  const [hi, setHi] = useState(0);
+  const [mi, setMi] = useState(0);
+  const [hf, setHf] = useState(0);
+  const [mf, setMf] = useState(0);
   const [resultado, setResultado] = useState("Resultado");
   
-  const soma = () =>{
-    let somaHora = Number(hi.value) + Number(hf.value);    
-    let somaMinuto = Number(mi.value) + Number(mf.value);
-    while(somaMinuto > 59){
-        somaMinuto -=60;
-        somaHora ++;
+  const soma = () => {
+    let somaHora = Number(hi) + Number(hf);
+    let somaMinuto = Number(mi) + Number(mf);
+    
+    while (somaMinuto > 59) {
+      somaMinuto -= 60;
+      somaHora++;
     }
-    setResultado('${somaHora}:${somaMinuto}');
-    // resultado.innerHTML = somaHora + ':' + somaMinuto
+    
+    setResultado(`${somaHora}:${somaMinuto}`);
   }
-
-  const sub = () =>{
-    let momentoInicial = Number(hi.value) * 60 + Number(mi.value);
-    let momentoFinal = Number(hf.value) * 60 + Number(mf.value);
-    let resultadoEmMinutos = momentoInicial - momentoFinal;
-    if( resultadoEmMinutos < 0){
-        resultadoEmMinutos *= -1;
-    }
+  const sub = () => {
+    let momentoInicial = hi * 60 + Number(mi);
+    let momentoFinal = hf * 60 + Number(mf);
+    let resultadoEmMinutos = Math.abs(momentoInicial - momentoFinal);
     let resultadoEmHoras = 0;
-    while(resultadoEmMinutos > 59){
-        resultadoEmHoras ++;
-        resultadoEmMinutos -= 60;
+
+    while (resultadoEmMinutos > 59) {
+      resultadoEmHoras++;
+      resultadoEmMinutos -= 60;
     }
     setResultado('${resultadoEmHora}:${resultadoEmMinutos}');
   }
@@ -64,9 +60,9 @@ function App() {
         onChange={(e) => setMf(e.target.value)}
         placeholder="Minuto final"/> <br /> <br />
 
-        <button onclick="soma()">Soma</button> &nbsp;
-        <button onclick="sub()">Diferença</button>
-        <h3 id="r">Resultado</h3>
+        <button onClick={soma}>Soma</button> &nbsp;
+        <button onClick={sub}>Diferença</button>
+        <h3 id="r">{resultado}</h3>
     </div>
     </>
   )
